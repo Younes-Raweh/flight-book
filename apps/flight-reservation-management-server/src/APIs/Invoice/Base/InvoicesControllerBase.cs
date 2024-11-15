@@ -2,6 +2,7 @@ using FlightReservationManagement.APIs;
 using FlightReservationManagement.APIs.Common;
 using FlightReservationManagement.APIs.Dtos;
 using FlightReservationManagement.APIs.Errors;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlightReservationManagement.APIs;
@@ -21,6 +22,7 @@ public abstract class InvoicesControllerBase : ControllerBase
     /// Create one Invoice
     /// </summary>
     [HttpPost()]
+    [Authorize(Roles = "admin,user")]
     public async Task<ActionResult<Invoice>> CreateInvoice(InvoiceCreateInput input)
     {
         var invoice = await _service.CreateInvoice(input);
@@ -32,6 +34,7 @@ public abstract class InvoicesControllerBase : ControllerBase
     /// Delete one Invoice
     /// </summary>
     [HttpDelete("{Id}")]
+    [Authorize(Roles = "admin,user")]
     public async Task<ActionResult> DeleteInvoice([FromRoute()] InvoiceWhereUniqueInput uniqueId)
     {
         try
@@ -50,6 +53,7 @@ public abstract class InvoicesControllerBase : ControllerBase
     /// Find many Invoices
     /// </summary>
     [HttpGet()]
+    [Authorize(Roles = "admin,user")]
     public async Task<ActionResult<List<Invoice>>> Invoices(
         [FromQuery()] InvoiceFindManyArgs filter
     )
@@ -72,6 +76,7 @@ public abstract class InvoicesControllerBase : ControllerBase
     /// Get one Invoice
     /// </summary>
     [HttpGet("{Id}")]
+    [Authorize(Roles = "admin,user")]
     public async Task<ActionResult<Invoice>> Invoice([FromRoute()] InvoiceWhereUniqueInput uniqueId)
     {
         try
@@ -88,6 +93,7 @@ public abstract class InvoicesControllerBase : ControllerBase
     /// Update one Invoice
     /// </summary>
     [HttpPatch("{Id}")]
+    [Authorize(Roles = "admin,user")]
     public async Task<ActionResult> UpdateInvoice(
         [FromRoute()] InvoiceWhereUniqueInput uniqueId,
         [FromQuery()] InvoiceUpdateInput invoiceUpdateDto

@@ -2,6 +2,7 @@ using FlightReservationManagement.APIs;
 using FlightReservationManagement.APIs.Common;
 using FlightReservationManagement.APIs.Dtos;
 using FlightReservationManagement.APIs.Errors;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlightReservationManagement.APIs;
@@ -21,6 +22,7 @@ public abstract class ReservationsControllerBase : ControllerBase
     /// Create one Reservation
     /// </summary>
     [HttpPost()]
+    [Authorize(Roles = "admin,user")]
     public async Task<ActionResult<Reservation>> CreateReservation(ReservationCreateInput input)
     {
         var reservation = await _service.CreateReservation(input);
@@ -32,6 +34,7 @@ public abstract class ReservationsControllerBase : ControllerBase
     /// Delete one Reservation
     /// </summary>
     [HttpDelete("{Id}")]
+    [Authorize(Roles = "admin,user")]
     public async Task<ActionResult> DeleteReservation(
         [FromRoute()] ReservationWhereUniqueInput uniqueId
     )
@@ -52,6 +55,7 @@ public abstract class ReservationsControllerBase : ControllerBase
     /// Find many Reservations
     /// </summary>
     [HttpGet()]
+    [Authorize(Roles = "admin,user")]
     public async Task<ActionResult<List<Reservation>>> Reservations(
         [FromQuery()] ReservationFindManyArgs filter
     )
@@ -74,6 +78,7 @@ public abstract class ReservationsControllerBase : ControllerBase
     /// Get one Reservation
     /// </summary>
     [HttpGet("{Id}")]
+    [Authorize(Roles = "admin,user")]
     public async Task<ActionResult<Reservation>> Reservation(
         [FromRoute()] ReservationWhereUniqueInput uniqueId
     )
@@ -92,6 +97,7 @@ public abstract class ReservationsControllerBase : ControllerBase
     /// Update one Reservation
     /// </summary>
     [HttpPatch("{Id}")]
+    [Authorize(Roles = "admin,user")]
     public async Task<ActionResult> UpdateReservation(
         [FromRoute()] ReservationWhereUniqueInput uniqueId,
         [FromQuery()] ReservationUpdateInput reservationUpdateDto

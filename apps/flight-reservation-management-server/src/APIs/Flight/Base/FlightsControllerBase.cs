@@ -2,6 +2,7 @@ using FlightReservationManagement.APIs;
 using FlightReservationManagement.APIs.Common;
 using FlightReservationManagement.APIs.Dtos;
 using FlightReservationManagement.APIs.Errors;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlightReservationManagement.APIs;
@@ -21,6 +22,7 @@ public abstract class FlightsControllerBase : ControllerBase
     /// Create one Flight
     /// </summary>
     [HttpPost()]
+    [Authorize(Roles = "admin,user")]
     public async Task<ActionResult<Flight>> CreateFlight(FlightCreateInput input)
     {
         var flight = await _service.CreateFlight(input);
@@ -32,6 +34,7 @@ public abstract class FlightsControllerBase : ControllerBase
     /// Delete one Flight
     /// </summary>
     [HttpDelete("{Id}")]
+    [Authorize(Roles = "admin,user")]
     public async Task<ActionResult> DeleteFlight([FromRoute()] FlightWhereUniqueInput uniqueId)
     {
         try
@@ -50,6 +53,7 @@ public abstract class FlightsControllerBase : ControllerBase
     /// Find many Flights
     /// </summary>
     [HttpGet()]
+    [Authorize(Roles = "admin,user")]
     public async Task<ActionResult<List<Flight>>> Flights([FromQuery()] FlightFindManyArgs filter)
     {
         return Ok(await _service.Flights(filter));
@@ -70,6 +74,7 @@ public abstract class FlightsControllerBase : ControllerBase
     /// Get one Flight
     /// </summary>
     [HttpGet("{Id}")]
+    [Authorize(Roles = "admin,user")]
     public async Task<ActionResult<Flight>> Flight([FromRoute()] FlightWhereUniqueInput uniqueId)
     {
         try
@@ -86,6 +91,7 @@ public abstract class FlightsControllerBase : ControllerBase
     /// Update one Flight
     /// </summary>
     [HttpPatch("{Id}")]
+    [Authorize(Roles = "admin,user")]
     public async Task<ActionResult> UpdateFlight(
         [FromRoute()] FlightWhereUniqueInput uniqueId,
         [FromQuery()] FlightUpdateInput flightUpdateDto

@@ -2,6 +2,7 @@ using FlightReservationManagement.APIs;
 using FlightReservationManagement.APIs.Common;
 using FlightReservationManagement.APIs.Dtos;
 using FlightReservationManagement.APIs.Errors;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlightReservationManagement.APIs;
@@ -21,6 +22,7 @@ public abstract class NotificationsControllerBase : ControllerBase
     /// Create one Notification
     /// </summary>
     [HttpPost()]
+    [Authorize(Roles = "admin,user")]
     public async Task<ActionResult<Notification>> CreateNotification(NotificationCreateInput input)
     {
         var notification = await _service.CreateNotification(input);
@@ -32,6 +34,7 @@ public abstract class NotificationsControllerBase : ControllerBase
     /// Delete one Notification
     /// </summary>
     [HttpDelete("{Id}")]
+    [Authorize(Roles = "admin,user")]
     public async Task<ActionResult> DeleteNotification(
         [FromRoute()] NotificationWhereUniqueInput uniqueId
     )
@@ -52,6 +55,7 @@ public abstract class NotificationsControllerBase : ControllerBase
     /// Find many Notifications
     /// </summary>
     [HttpGet()]
+    [Authorize(Roles = "admin,user")]
     public async Task<ActionResult<List<Notification>>> Notifications(
         [FromQuery()] NotificationFindManyArgs filter
     )
@@ -74,6 +78,7 @@ public abstract class NotificationsControllerBase : ControllerBase
     /// Get one Notification
     /// </summary>
     [HttpGet("{Id}")]
+    [Authorize(Roles = "admin,user")]
     public async Task<ActionResult<Notification>> Notification(
         [FromRoute()] NotificationWhereUniqueInput uniqueId
     )
@@ -92,6 +97,7 @@ public abstract class NotificationsControllerBase : ControllerBase
     /// Update one Notification
     /// </summary>
     [HttpPatch("{Id}")]
+    [Authorize(Roles = "admin,user")]
     public async Task<ActionResult> UpdateNotification(
         [FromRoute()] NotificationWhereUniqueInput uniqueId,
         [FromQuery()] NotificationUpdateInput notificationUpdateDto

@@ -2,6 +2,7 @@ using FlightReservationManagement.APIs;
 using FlightReservationManagement.APIs.Common;
 using FlightReservationManagement.APIs.Dtos;
 using FlightReservationManagement.APIs.Errors;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlightReservationManagement.APIs;
@@ -21,6 +22,7 @@ public abstract class TourOperatorsControllerBase : ControllerBase
     /// Create one Tour Operator
     /// </summary>
     [HttpPost()]
+    [Authorize(Roles = "admin,user")]
     public async Task<ActionResult<TourOperator>> CreateTourOperator(TourOperatorCreateInput input)
     {
         var tourOperator = await _service.CreateTourOperator(input);
@@ -32,6 +34,7 @@ public abstract class TourOperatorsControllerBase : ControllerBase
     /// Delete one Tour Operator
     /// </summary>
     [HttpDelete("{Id}")]
+    [Authorize(Roles = "admin,user")]
     public async Task<ActionResult> DeleteTourOperator(
         [FromRoute()] TourOperatorWhereUniqueInput uniqueId
     )
@@ -52,6 +55,7 @@ public abstract class TourOperatorsControllerBase : ControllerBase
     /// Find many Tour Operators
     /// </summary>
     [HttpGet()]
+    [Authorize(Roles = "admin,user")]
     public async Task<ActionResult<List<TourOperator>>> TourOperators(
         [FromQuery()] TourOperatorFindManyArgs filter
     )
@@ -74,6 +78,7 @@ public abstract class TourOperatorsControllerBase : ControllerBase
     /// Get one Tour Operator
     /// </summary>
     [HttpGet("{Id}")]
+    [Authorize(Roles = "admin,user")]
     public async Task<ActionResult<TourOperator>> TourOperator(
         [FromRoute()] TourOperatorWhereUniqueInput uniqueId
     )
@@ -92,6 +97,7 @@ public abstract class TourOperatorsControllerBase : ControllerBase
     /// Update one Tour Operator
     /// </summary>
     [HttpPatch("{Id}")]
+    [Authorize(Roles = "admin,user")]
     public async Task<ActionResult> UpdateTourOperator(
         [FromRoute()] TourOperatorWhereUniqueInput uniqueId,
         [FromQuery()] TourOperatorUpdateInput tourOperatorUpdateDto
